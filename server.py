@@ -13,9 +13,9 @@ from middlewares import AccessMiddleware
 
 logging.basicConfig(level=logging.INFO)
 
-API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
-PROXY_URL = os.getenv("TELEGRAM_PROXY_URL")
-ACCESS_ID = os.getenv("TELEGRAM_ACCESS_ID")
+API_TOKEN = "1623533586:AAGXBlQQb9w7Li-tUj1jtMQTY9aAewRAq5o"
+# PROXY_URL = os.getenv("TELEGRAM_PROXY_URL")
+ACCESS_ID = "709563692"
 
 print(API_TOKEN)
 bot = Bot(token=API_TOKEN)
