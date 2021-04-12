@@ -1,1 +1,1 @@
- worker: python server.py
+ web: python server.py --port=5000
