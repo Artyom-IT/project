@@ -8,18 +8,26 @@ from aiogram import Bot, Dispatcher, executor, types
 import exceptions
 import expenses
 from categories import Categories
+from aiogram.utils.executor import start_webhook
 from middlewares import AccessMiddleware
-
 
 logging.basicConfig(level=logging.INFO)
 
 API_TOKEN = "1623533586:AAGXBlQQb9w7Li-tUj1jtMQTY9aAewRAq5o"
 # PROXY_URL = os.getenv("TELEGRAM_PROXY_URL")
-ACCESS_ID = "709563692"
+# ACCESS_ID = "709563692"
+PROJECT_NAME = "nameless-crag-55434"
+WEBHOOK_HOST = f"https://{PROJECT_NAME}.herokuapp.com"
+WEBHOOK_PATH = "/webhook/" + API_TOKEN
+WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
+WEBAPP_HOST = "localhost"
+WEBAPP_PORT = 8443
 
 print(API_TOKEN)
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
+
+
 # dp.middleware.setup(AccessMiddleware(ACCESS_ID))
 
 
@@ -35,6 +43,19 @@ async def send_welcome(message: types.Message):
         "Категории трат: /categories")
 
 
+async def on_startup():
+    await bot.delete_webhook()
+    await bot.set_webhook(WEBHOOK_URL)
+
+
+async def on_shutdown():
+    logging.warning("Shutting down..")
+    await bot.delete_webhook()
+    await dp.storage.close()
+    await dp.storage.wait_closed()
+    logging.warning("Bot down")
+
+
 @dp.message_handler(lambda message: message.text.startswith('/del'))
 async def del_expense(message: types.Message):
     """Удаляет одну запись о расходе по её идентификатору"""
@@ -48,8 +69,8 @@ async def del_expense(message: types.Message):
 async def categories_list(message: types.Message):
     """Отправляет список категорий расходов"""
     categories = Categories().get_all_categories()
-    answer_message = "Категории трат:\n\n* " +\
-            ("\n* ".join([c.name+' ('+", ".join(c.aliases)+')' for c in categories]))
+    answer_message = "Категории трат:\n\n* " + \
+                     ("\n* ".join([c.name + ' (' + ", ".join(c.aliases) + ')' for c in categories]))
     await message.answer(answer_message)
 
 
@@ -79,8 +100,8 @@ async def list_expenses(message: types.Message):
         f"{expense.amount} руб. на {expense.category_name} — нажми "
         f"/del{expense.id} для удаления"
         for expense in last_expenses]
-    answer_message = "Последние сохранённые траты:\n\n* " + "\n\n* "\
-            .join(last_expenses_rows)
+    answer_message = "Последние сохранённые траты:\n\n* " + "\n\n* " \
+        .join(last_expenses_rows)
     await message.answer(answer_message)
 
 
@@ -98,5 +119,18 @@ async def add_expense(message: types.Message):
     await message.answer(answer_message)
 
 
-if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+if __name__ == "__main__":
+    if "HEROKU" in list(os.environ.keys()):
+        print("MAYBE WORKS")
+        executor.start_webhook(
+            dispatcher=dp,
+            webhook_path=WEBHOOK_PATH,
+            on_startup=on_startup,
+            on_shutdown=on_shutdown,
+            skip_updates=True,
+            host=WEBAPP_HOST,
+            port=WEBAPP_PORT,
+        )
+    else:
+        print("DONT")
+        executor.start_polling(dp)
