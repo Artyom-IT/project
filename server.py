@@ -20,7 +20,7 @@ ACCESS_ID = "709563692"
 print(API_TOKEN)
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
-dp.middleware.setup(AccessMiddleware(ACCESS_ID))
+# dp.middleware.setup(AccessMiddleware(ACCESS_ID))
 
 
 @dp.message_handler(commands=['start', 'help'])
