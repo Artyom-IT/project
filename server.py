@@ -16,23 +16,12 @@ logging.basicConfig(level=logging.INFO)
 API_TOKEN = "1623533586:AAGXBlQQb9w7Li-tUj1jtMQTY9aAewRAq5o"
 # PROXY_URL = os.getenv("TELEGRAM_PROXY_URL")
 # ACCESS_ID = "709563692"
-# PROJECT_NAME = "nameless-crag-55434"
-# WEBHOOK_HOST = f"https://{PROJECT_NAME}.herokuapp.com"
-# WEBHOOK_PATH = "/webhook/" + API_TOKEN
-# WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
-# WEBAPP_HOST = "0.0.0.0"
-# WEBAPP_PORT = '8888'
-
-# API_TOKEN = 'BOT_TOKEN_HERE'
-
-# webhook settings
-WEBHOOK_HOST = 'https://nameless-crag-55434.herokuapp.com'
-WEBHOOK_PATH = '/webhook/' + API_TOKEN
+PROJECT_NAME = "nameless-crag-55434"
+WEBHOOK_HOST = f"https://{PROJECT_NAME}.herokuapp.com"
+WEBHOOK_PATH = "/webhook/" + API_TOKEN
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
-
-# webserver settings
-WEBAPP_HOST = 'localhost'
-WEBAPP_PORT = 3001
+WEBAPP_HOST = "0.0.0.0"
+WEBAPP_PORT = os.getenv("PORT")
 
 print(API_TOKEN)
 bot = Bot(token=API_TOKEN)
@@ -130,13 +119,18 @@ async def add_expense(message: types.Message):
     await message.answer(answer_message)
 
 
-if __name__ == '__main__':
-    start_webhook(
-        dispatcher=dp,
-        webhook_path=WEBHOOK_PATH,
-        on_startup=on_startup,
-        on_shutdown=on_shutdown,
-        skip_updates=True,
-        host=WEBAPP_HOST,
-        port=WEBAPP_PORT,
-    )
+if __name__ == "__main__":
+    # if "HEROKU" in list(os.environ.keys()):
+    #     print("MAYBE WORKS")
+    #     executor.start_webhook(
+    #         dispatcher=dp,
+    #         webhook_path=WEBHOOK_PATH,
+    #         on_startup=on_startup,
+    #         on_shutdown=on_shutdown,
+    #         skip_updates=True,
+    #         host=WEBAPP_HOST,
+    #         port=WEBAPP_PORT,
+    #     )
+    # else:
+    print("DONT")
+    executor.start_polling(dp)
