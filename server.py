@@ -8,7 +8,7 @@ from aiogram import Bot, Dispatcher, executor, types
 import exceptions
 import expenses
 from categories import Categories
-from aiogram.utils.executor import start_webhook
+    from aiogram.utils.executor import start_webhook
 from middlewares import AccessMiddleware
 
 logging.basicConfig(level=logging.INFO)
@@ -96,5 +96,4 @@ async def add_expense(message: types.Message):
 
 
 if __name__ == "__main__":
-    print("DONT")
     executor.start_polling(dp)
