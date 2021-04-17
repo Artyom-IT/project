@@ -8,7 +8,6 @@ from aiogram import Bot, Dispatcher, executor, types
 import exceptions
 import expenses
 from categories import Categories
-    from aiogram.utils.executor import start_webhook
 from middlewares import AccessMiddleware
 
 logging.basicConfig(level=logging.INFO)
