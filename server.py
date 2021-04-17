@@ -120,17 +120,17 @@ async def add_expense(message: types.Message):
 
 
 if __name__ == "__main__":
-    if "HEROKU" in list(os.environ.keys()):
-        print("MAYBE WORKS")
-        executor.start_webhook(
-            dispatcher=dp,
-            webhook_path=WEBHOOK_PATH,
-            on_startup=on_startup,
-            on_shutdown=on_shutdown,
-            skip_updates=True,
-            host=WEBAPP_HOST,
-            port=WEBAPP_PORT,
-        )
-    else:
-        print("DONT")
-        executor.start_polling(dp)
+    # if "HEROKU" in list(os.environ.keys()):
+    print("MAYBE WORKS")
+    executor.start_webhook(
+        dispatcher=dp,
+        webhook_path=WEBHOOK_PATH,
+        on_startup=on_startup,
+        on_shutdown=on_shutdown,
+        skip_updates=True,
+        host=WEBAPP_HOST,
+        port=WEBAPP_PORT,
+    )
+    # else:
+    #     print("DONT")
+    #     executor.start_polling(dp)
