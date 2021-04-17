@@ -54,12 +54,12 @@ async def send_welcome(message: types.Message):
         "Категории трат: /categories")
 
 
-async def on_startup(dp):
+async def on_startup():
     await bot.delete_webhook()
     await bot.set_webhook(WEBHOOK_URL)
 
 
-async def on_shutdown(dp):
+async def on_shutdown():
     logging.warning("Shutting down..")
     await bot.delete_webhook()
     await dp.storage.close()
