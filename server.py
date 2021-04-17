@@ -12,7 +12,7 @@ from middlewares import AccessMiddleware
 
 logging.basicConfig(level=logging.INFO)
 
-API_TOKEN = "1623533586:AAGXBlQQb9w7Li-tUj1jtMQTY9aAewRAq5o"
+API_TOKEN = "1558929657:AAGqiC5nLu9LlrmRPE2CP8NMgskJ4I3oppg"
 
 print(API_TOKEN)
 bot = Bot(token=API_TOKEN)
