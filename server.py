@@ -1,20 +1,16 @@
 """Сервер Telegram бота, запускаемый непосредственно"""
 import logging
-import os
 
-import aiohttp
 from aiogram import Bot, Dispatcher, executor, types
 
 import exceptions
 import expenses
 from categories import Categories
-from middlewares import AccessMiddleware
 
 logging.basicConfig(level=logging.INFO)
 
 API_TOKEN = "1558929657:AAGqiC5nLu9LlrmRPE2CP8NMgskJ4I3oppg"
 
-print(API_TOKEN)
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
